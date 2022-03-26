@@ -1,6 +1,25 @@
 local diagnostics = require("null-ls.builtins").diagnostics
 
 describe("diagnostics", function()
+    describe("buf", function()
+        local linter = diagnostics.buf
+        local parser = linter._opts.on_output
+
+        it("should create a diagnostic with an Error severity", function()
+            local file = {
+                [[ syntax = "proto3"; package tutorial.v1;]],
+            }
+            local output =
+                [[demo.proto:2:1:Files with package "tutorial.v1" must be within a directory "tutorial/v1" relative to root but were in directory ".".]]
+            local diagnostic = parser(output, { content = file })
+            assert.same({
+                col = "1",
+                filename = "demo.proto",
+                message = [[Files with package "tutorial.v1" must be within a directory "tutorial/v1" relative to root but were in directory ".".]],
+                row = "2",
+            }, diagnostic)
+        end)
+    end)
     describe("chktex", function()
         local linter = diagnostics.chktex
         local parser = linter._opts.on_output
@@ -454,6 +473,43 @@ describe("diagnostics", function()
                 severity = 2,
                 code = "unused_variable",
                 message = "CACHE_PATH is defined, but never used",
+            }, diagnostic)
+        end)
+    end)
+
+    describe("solhint", function()
+        local linter = diagnostics.solhint
+        local parser = linter._opts.on_output
+
+        it("should create a diagnostic with an Error severity", function()
+            local file = {
+                [[ import 'interfaces/IToken.sol'; ]],
+            }
+            local output = "contracts/Token.sol:22:8: Use double quotes for string literals [Error/quotes]"
+            local diagnostic = parser(output, { content = file })
+            assert.same({
+                code = "quotes",
+                col = "8",
+                filename = "contracts/Token.sol",
+                message = "Use double quotes for string literals",
+                row = "22",
+                severity = 1,
+            }, diagnostic)
+        end)
+
+        it("should create a diagnostic with a Warning severity", function()
+            local file = {
+                [[ function somethingPrivate(uint8 id) returns (bool) {}; ]],
+            }
+            local output = "contracts/Token.sol:359:5: Explicitly mark visibility in function [Warning/func-visibility]"
+            local diagnostic = parser(output, { content = file })
+            assert.same({
+                code = "func-visibility",
+                col = "5",
+                filename = "contracts/Token.sol",
+                message = "Explicitly mark visibility in function",
+                row = "359",
+                severity = 2,
             }, diagnostic)
         end)
     end)

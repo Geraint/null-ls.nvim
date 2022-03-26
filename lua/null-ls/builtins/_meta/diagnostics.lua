@@ -10,6 +10,9 @@ return {
   ansiblelint = {
     filetypes = { "yaml.ansible" }
   },
+  buf = {
+    filetypes = { "proto" }
+  },
   buildifier = {
     filetypes = { "bzl" }
   },
@@ -159,6 +162,9 @@ return {
   },
   shellcheck = {
     filetypes = { "sh" }
+  },
+  solhint = {
+    filetypes = { "solidity" }
   },
   standardjs = {
     filetypes = { "javascript", "javascriptreact" }

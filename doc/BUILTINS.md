@@ -288,6 +288,23 @@ local sources = { null_ls.builtins.diagnostics.ansiblelint }
 - Command: `ansible-lint`
 - Args: `{ "-f", "codeclimate", "-q", "--nocolor", "$FILENAME" }`
 
+### [buf](https://github.com/bufbuild/buf)
+
+A new way of working with Protocol Buffers.
+
+#### Usage
+
+```lua
+local sources = { null_ls.builtins.diagnostics.buf }
+```
+
+#### Defaults
+
+- Filetypes: `{ "proto" }`
+- Method: `diagnostics`
+- Command: `buf`
+- Args: `{ "lint", "$FILENAME#include_package_files=true" }`
+
 ### [buildifier](https://github.com/bazelbuild/buildtools/tree/master/buildifier)
 
 buildifier is a tool for formatting and linting bazel BUILD, WORKSPACE, and .bzl files.
@@ -1150,6 +1167,23 @@ local sources = { null_ls.builtins.diagnostics.shellcheck }
 - Command: `shellcheck`
 - Args: `{ "--format", "json1", "--source-path=$DIRNAME", "--external-sources", "-" }`
 
+### [solhint](https://protofire.github.io/solhint/)
+
+An open source project for linting Solidity code. It provides both security and style guide validations.
+
+#### Usage
+
+```lua
+local sources = { null_ls.builtins.diagnostics.solhint }
+```
+
+#### Defaults
+
+- Filetypes: `{ "solidity" }`
+- Method: `diagnostics`
+- Command: `solhint`
+- Args: `{ "$FILENAME", "--formatter", "unix" }`
+
 ### [standardjs](https://standardjs.com/)
 
 JavaScript style guide, linter, and formatter.
@@ -1580,6 +1614,23 @@ local sources = { null_ls.builtins.formatting.brittany }
 - Filetypes: `{ "haskell" }`
 - Method: `formatting`
 - Command: `brittany`
+
+### [buf](https://github.com/bufbuild/buf)
+
+A new way of working with Protocol Buffers.
+
+#### Usage
+
+```lua
+local sources = { null_ls.builtins.formatting.buf }
+```
+
+#### Defaults
+
+- Filetypes: `{ "proto" }`
+- Method: `formatting`
+- Command: `buf`
+- Args: `{ "format", "$FILENAME" }`
 
 ### [buildifier](https://github.com/bazelbuild/buildtools/tree/master/buildifier)
 
